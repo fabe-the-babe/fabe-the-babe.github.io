@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Meloire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Caveat:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+/* ─── PALETTE ─────────────────────────────── */
+:root {
+  --ink:       #1a1410;
+  --red:       #b01c22;
+  --red-dark:  #7d1118;
+  --paper:     #e8dece;
+  --paper2:    #d9ccb8;
+  --aged:      #c9b99a;
+  --faded:     #8a7a68;
+  --white:     #f4ede0;
+  --form-line: rgba(26,20,16,0.18);
+}
+
+/* ─── RESET ───────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Mono',monospace;
+  background:var(--paper);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+
+/* ─── GRAIN ───────────────────────────────── */
+body::after{
+  content:'';
+  position:fixed;inset:0;pointer-events:none;z-index:9999;
+  opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* ─── HORIZONTAL RULE STYLE ───────────────── */
+.rule{
+  border:none;
+  border-top:1px solid var(--form-line);
+  margin:0;
+}
+
+/* ─── NAV ─────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 3rem;
+  background:rgba(232,222,206,.93);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--form-line);
+}
+.nav-logo{
+  font-family:'IM Fell English',serif;
+  font-size:1.7rem;letter-spacing:.04em;
+  color:var(--ink);text-decoration:none;
+}
+.nav-logo sup{
+  font-family:'Caveat',cursive;
+  font-size:.7rem;color:var(--red);
+  vertical-align:super;margin-left:2px;letter-spacing:0;
+}
+nav ul{list-style:none;display:flex;gap:2rem;align-items:center}
+nav ul a{
+  font-family:'DM Mono',monospace;
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faded);text-decoration:none;
+  transition:color .2s;
+}
+nav ul a:hover{color:var(--red)}
+
+/* ─── HERO ────────────────────────────────── */
+#hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:55% 45%;
+  padding-top:60px;
+  position:relative;
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:6rem 4rem 6rem 5rem;
+  background:var(--white);
+  position:relative;
+  border-right:1px solid var(--form-line);
+}
+
+/* dossier médical lines background */
+.hero-left::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 31px,
+    var(--form-line) 32px
+  );
+  background-size:100% 32px;
+  pointer-events:none;
+}
+
+.hero-stamp{
+  font-family:'Special Elite',cursive;
+  font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--red);opacity:.8;
+  border:1.5px solid var(--red);
+  display:inline-block;padding:.2rem .7rem;
+  transform:rotate(-1.5deg);
+  margin-bottom:2.5rem;
+  width:fit-content;
+}
+.hero-title{
+  font-family:'IM Fell English',serif;
+  font-size:clamp(4.5rem,9vw,8rem);
+  line-height:.9;font-weight:400;
+  color:var(--ink);
+  position:relative;z-index:1;
+}
+.hero-title-script{
+  font-family:'Caveat',cursive;font-weight:700;
+  font-size:clamp(1.8rem,4vw,3rem);
+  color:var(--red);display:block;
+  margin-top:.6rem;line-height:1.1;
+  transform:rotate(-.8deg);
+}
+.hero-meta{
+  font-family:'DM Mono',monospace;
+  font-size:.72rem;color:var(--faded);
+  letter-spacing:.1em;margin-top:2.5rem;
+  line-height:2;
+  position:relative;z-index:1;
+}
+.hero-meta span{color:var(--ink);}
+.hero-cta{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  margin-top:2.5rem;position:relative;z-index:1;
+}
+.btn{
+  font-family:'DM Mono',monospace;
+  font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:.75rem 1.8rem;text-decoration:none;
+  transition:all .2s;display:inline-block;cursor:pointer;
+}
+.btn-red{background:var(--red);color:var(--white);border:1.5px solid var(--red)}
+.btn-red:hover{background:var(--red-dark);border-color:var(--red-dark)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--white)}
+
+.hero-right{
+  position:relative;overflow:hidden;
+  background:var(--paper2);
+}
+.hero-right img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  display:block;filter:sepia(18%) contrast(1.05);
+}
+/* annotation over photo */
+.hero-annotation{
+  position:absolute;bottom:2.5rem;left:1.5rem;
+  font-family:'Caveat',cursive;
+  font-size:1.4rem;color:var(--red);
+  transform:rotate(-2deg);
+  text-shadow:1px 1px 0 rgba(240,220,200,.6);
+}
+/* corner bracket top-right */
+.hero-bracket{
+  position:absolute;top:1.5rem;right:1.5rem;
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.1em;
+  color:rgba(232,222,206,.6);
+  text-align:right;line-height:1.8;
+}
+
+/* ─── STREAMING STRIP ─────────────────────── */
+#streaming{
+  background:var(--ink);
+  padding:0 5rem;
+  display:flex;align-items:stretch;
+  border-top:2px solid var(--red);
+}
+.stream-label{
+  font-family:'Special Elite',cursive;
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--aged);
+  padding:1.4rem 2rem 1.4rem 0;
+  border-right:1px solid rgba(255,255,255,.1);
+  white-space:nowrap;display:flex;align-items:center;
+}
+.stream-links{
+  display:flex;flex-wrap:wrap;align-items:stretch;
+  gap:0;
+}
+.stream-btn{
+  display:flex;align-items:center;gap:.5rem;
+  padding:1.3rem 1.6rem;
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--aged);text-decoration:none;
+  border-right:1px solid rgba(255,255,255,.08);
+  transition:background .2s,color .2s;
+}
+.stream-btn:hover{background:var(--red);color:var(--white)}
+.stream-btn svg{width:14px;height:14px;fill:currentColor;flex-shrink:0}
+
+/* ─── SECTION BASE ────────────────────────── */
+section{padding:6rem 5rem}
+.section-label{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--red);margin-bottom:.8rem;
+}
+.section-title{
+  font-family:'IM Fell English',serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:400;line-height:1.05;
+  margin-bottom:2rem;
+}
+.section-title em{font-style:italic;color:var(--red)}
+
+/* ─── ABOUT ───────────────────────────────── */
+#about{
+  background:var(--white);
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;
+  position:relative;
+}
+/* ruled paper lines */
+#about::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    to bottom,transparent 0px,transparent 31px,var(--form-line) 32px
+  );pointer-events:none;
+}
+.about-text{position:relative;z-index:1}
+.about-text p{
+  font-family:'DM Mono',monospace;
+  font-size:.82rem;line-height:2;
+  color:var(--faded);margin-bottom:1.4rem;font-weight:300;
+}
+.about-text p strong{color:var(--ink);font-weight:400;}
+
+/* dossier card */
+.dossier{
+  position:relative;z-index:1;
+  border:1px solid var(--form-line);
+  background:var(--white);
+  padding:2rem;
+}
+.dossier-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:1.5rem;padding-bottom:1rem;
+  border-bottom:1px solid var(--form-line);
+}
+.dossier-title{
+  font-family:'Special Elite',cursive;
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faded);
+}
+.dossier-no{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;color:var(--red);letter-spacing:.1em;
+}
+.dossier-field{
+  display:grid;grid-template-columns:120px 1fr;
+  gap:.5rem 1rem;align-items:baseline;
+  margin-bottom:.6rem;
+}
+.dossier-key{
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faded);
+}
+.dossier-val{
+  font-family:'Special Elite',cursive;
+  font-size:.9rem;color:var(--ink);
+  border-bottom:1px solid var(--form-line);
+  padding-bottom:2px;
+}
+.dossier-note{
+  margin-top:1.5rem;padding-top:1rem;
+  border-top:1px solid var(--form-line);
+  font-family:'Caveat',cursive;
+  font-size:.95rem;color:var(--red);
+  line-height:1.6;transform:rotate(-.5deg);
+}
+
+/* photo collage in about */
+.about-photos{
+  position:relative;z-index:1;
+  height:420px;margin-top:3rem;
+}
+.about-photos .pc{
+  position:absolute;background:var(--paper2);
+  box-shadow:2px 4px 16px rgba(0,0,0,.15);overflow:hidden;
+}
+.about-photos .pc img{width:100%;height:100%;object-fit:cover;filter:sepia(20%)contrast(1.05)}
+.about-photos .pc:nth-child(1){width:58%;height:58%;top:0;left:5%;transform:rotate(1.5deg)}
+.about-photos .pc:nth-child(2){width:50%;height:50%;bottom:0;right:0;transform:rotate(-2.5deg)}
+.about-photos .annot{
+  position:absolute;bottom:5.5rem;left:-8px;
+  font-family:'Caveat',cursive;font-size:1.1rem;color:var(--red);
+  transform:rotate(-1deg);
+}
+
+/* ─── MUSIC ───────────────────────────────── */
+#music{background:var(--paper);position:relative}
+.music-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:3rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid var(--form-line);
+}
+.album-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:2rem;
+}
+.album-card{transition:transform .3s}
+.album-card:hover{transform:translateY(-5px) rotate(.5deg)}
+.album-cover{
+  width:100%;aspect-ratio:1;
+  background:var(--paper2);
+  overflow:hidden;
+  box-shadow:3px 5px 18px rgba(0,0,0,.14);
+  margin-bottom:.9rem;position:relative;
+}
+.album-cover img{
+  width:100%;height:100%;object-fit:cover;
+  filter:sepia(15%)contrast(1.05);display:block;
+}
+.album-cover-ph{
+  width:100%;height:100%;
+  background:var(--aged);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Caveat',cursive;font-size:1rem;
+  color:var(--white);text-align:center;padding:1rem;opacity:.7;
+}
+.album-name{
+  font-family:'IM Fell English',serif;font-size:1rem;font-weight:400;
+}
+.album-year{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  color:var(--faded);margin:.2rem 0 .5rem;letter-spacing:.06em;
+}
+.album-links{display:flex;gap:.8rem;flex-wrap:wrap}
+.album-links a{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);text-decoration:none;
+  border-bottom:1px solid var(--red);padding-bottom:1px;
+  transition:opacity .2s;
+}
+.album-links a:hover{opacity:.55}
+
+/* ─── GALLERY ─────────────────────────────── */
+#photos{background:var(--ink);padding:6rem 0}
+.gallery-header{padding:0 5rem;margin-bottom:3rem}
+.gallery-header .section-title{color:var(--paper)}
+.gallery-header .section-label{color:var(--red)}
+.gallery-strip{
+  display:flex;gap:1.2rem;padding:0 5rem;
+  overflow-x:auto;scrollbar-width:none;
+}
+.gallery-strip::-webkit-scrollbar{display:none}
+.gitem{
+  flex:0 0 auto;width:260px;height:360px;
+  background:var(--paper2);overflow:hidden;
+  transform:rotate(var(--r));
+  box-shadow:3px 6px 24px rgba(0,0,0,.35);
+  transition:transform .35s,box-shadow .35s;
+}
+.gitem:hover{transform:rotate(0deg) scale(1.04);box-shadow:8px 14px 40px rgba(0,0,0,.45)}
+.gitem img{width:100%;height:100%;object-fit:cover;filter:sepia(25%)contrast(1.08)}
+.gitem-ph{
+  width:100%;height:100%;background:var(--faded);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Caveat',cursive;font-size:1rem;
+  color:var(--white);opacity:.6;text-align:center;padding:1rem;
+}
+
+/* ─── MERCH ───────────────────────────────── */
+#merch{background:var(--white);position:relative}
+#merch::before{
+  content:'';position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    to bottom,transparent 0px,transparent 31px,var(--form-line) 32px
+  );pointer-events:none;
+}
+.merch-top{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+  align-items:end;margin-bottom:3rem;
+  padding-bottom:1.5rem;border-bottom:1px solid var(--form-line);
+}
+.merch-top p{
+  font-family:'DM Mono',monospace;font-size:.78rem;line-height:2;
+  color:var(--faded);font-weight:300;
+}
+.merch-grid{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.5rem;
+}
+.merch-card{border:1px solid var(--form-line);background:var(--paper)}
+.merch-img{
+  width:100%;aspect-ratio:1;overflow:hidden;
+  background:var(--paper2);display:flex;align-items:center;justify-content:center;
+}
+.merch-img img{width:100%;height:100%;object-fit:cover;filter:sepia(10%)}
+.merch-img-ph{
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  font-family:'Caveat',cursive;font-size:.95rem;color:var(--faded);
+}
+.merch-body{padding:1.2rem 1.4rem;border-top:1px solid var(--form-line)}
+.merch-name{font-family:'IM Fell English',serif;font-size:1rem;font-weight:400}
+.merch-price{
+  font-family:'DM Mono',monospace;font-size:.72rem;
+  color:var(--red);margin:.3rem 0 .8rem;letter-spacing:.06em;
+}
+.merch-buy{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  background:var(--ink);color:var(--white);
+  padding:.5rem 1.1rem;text-decoration:none;
+  display:inline-block;border:none;cursor:pointer;
+  transition:background .2s;
+}
+.merch-buy:hover{background:var(--red)}
+
+/* ─── PRODUCER ────────────────────────────── */
+#producer{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+
+/* watermark */
+#producer::before{
+  content:'PROD';position:absolute;
+  right:-1rem;top:50%;transform:translateY(-50%) rotate(90deg);
+  font-family:'IM Fell English',serif;font-size:11rem;font-weight:400;
+  color:rgba(232,222,206,.04);pointer-events:none;user-select:none;
+  letter-spacing:.1em;
+}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.prod-text .section-label{color:var(--red)}
+.prod-text .section-title{color:var(--paper)}
+.prod-text p{
+  font-family:'DM Mono',monospace;font-size:.8rem;line-height:2;
+  color:var(--aged);font-weight:300;margin-bottom:1.2rem;
+}
+
+/* typewriter list */
+.services{list-style:none;margin:1.5rem 0 2rem}
+.services li{
+  font-family:'Special Elite',cursive;
+  font-size:.9rem;color:var(--paper);
+  padding:.55rem 0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;gap:.8rem;
+}
+.services li::before{
+  content:'//';font-family:'DM Mono',monospace;
+  font-size:.65rem;color:var(--red);flex-shrink:0;
+}
+
+/* prod photos */
+.prod-photos{height:460px;position:relative}
+.prod-photos .pc{
+  position:absolute;background:#2a2018;
+  box-shadow:4px 6px 24px rgba(0,0,0,.5);overflow:hidden;
+}
+.prod-photos .pc img{width:100%;height:100%;object-fit:cover;filter:sepia(40%)brightness(.8)}
+.prod-photos .pc:nth-child(1){width:68%;height:65%;top:0;right:5%;transform:rotate(-1.5deg)}
+.prod-photos .pc:nth-child(2){width:52%;height:52%;bottom:0;left:0;transform:rotate(2deg)}
+
+/* ─── CONTACT ─────────────────────────────── */
+#contact{background:var(--paper);position:relative}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.contact-info .section-title{margin-bottom:1.2rem}
+.contact-info p{
+  font-family:'DM Mono',monospace;font-size:.78rem;line-height:2;
+  color:var(--faded);font-weight:300;margin-bottom:1.5rem;
+}
+.contact-detail{
+  display:flex;align-items:baseline;gap:.6rem;
+  font-family:'DM Mono',monospace;font-size:.75rem;
+  color:var(--ink);margin-bottom:.6rem;
+}
+.contact-detail a{color:var(--red);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.contact-detail a:hover{border-color:var(--red)}
+.contact-socials{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem}
+.soc-btn{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:.5rem 1rem;text-decoration:none;
+  color:var(--ink);border:1px solid var(--form-line);
+  transition:all .2s;
+}
+.soc-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* form on ruled paper */
+.contact-form-wrap{
+  background:var(--white);
+  background-image:repeating-linear-gradient(
+    to bottom,transparent 0px,transparent 31px,var(--form-line) 32px
+  );
+  padding:2.5rem;border:1px solid var(--form-line);
+}
+.form-group{display:flex;flex-direction:column;gap:.3rem;margin-bottom:1.4rem}
+label{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--faded);
+}
+input,select,textarea{
+  background:transparent;
+  border:none;border-bottom:1px solid var(--ink);
+  padding:.5rem 0;font-family:'Special Elite',cursive;
+  font-size:.9rem;color:var(--ink);outline:none;width:100%;
+  transition:border-color .2s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--red)}
+select{cursor:pointer}
+select option{background:var(--white)}
+textarea{resize:vertical;min-height:100px;border:1px solid var(--form-line);padding:.6rem;margin-top:.3rem}
+.form-submit{
+  background:var(--red);color:var(--white);border:none;
+  font-family:'DM Mono',monospace;font-size:.68rem;
+  letter-spacing:.16em;text-transform:uppercase;
+  padding:.8rem 2rem;cursor:pointer;
+  transition:background .2s;
+}
+.form-submit:hover{background:var(--red-dark)}
+#form-confirm{
+  display:none;margin-top:1rem;
+  font-family:'Caveat',cursive;font-size:1.1rem;color:var(--red);
+}
+
+/* ─── FOOTER ──────────────────────────────── */
+footer{
+  background:var(--ink);color:var(--aged);
+  padding:2.5rem 5rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;
+  border-top:2px solid var(--red);
+}
+.footer-logo{font-family:'IM Fell English',serif;font-size:1.5rem;color:var(--paper)}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.footer-links a{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--aged);text-decoration:none;transition:color .2s;
+}
+.footer-links a:hover{color:var(--red)}
+.footer-copy{font-family:'DM Mono',monospace;font-size:.6rem;opacity:.45}
+
+/* ─── FADE IN ─────────────────────────────── */
+.fi{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s ease}
+.fi.on{opacity:1;transform:translateY(0)}
+
+/* ─── TORN DIVIDERS ───────────────────────── */
+.tear-down{
+  height:44px;background:var(--paper);
+  clip-path:polygon(0% 55%,3% 20%,6% 50%,10% 10%,14% 45%,18% 8%,22% 42%,27% 5%,31% 38%,36% 12%,40% 48%,45% 6%,50% 40%,55% 10%,59% 44%,64% 8%,68% 42%,73% 12%,77% 48%,82% 15%,86% 50%,90% 18%,94% 46%,97% 20%,100% 50%,100% 100%,0% 100%);
+}
+.tear-up{
+  height:44px;background:var(--paper);
+  clip-path:polygon(0% 50%,3% 80%,6% 50%,10% 90%,14% 55%,18% 92%,22% 58%,27% 95%,31% 62%,36% 88%,40% 52%,45% 94%,50% 60%,55% 90%,59% 56%,64% 92%,68% 58%,73% 88%,77% 52%,82% 85%,86% 50%,90% 82%,94% 54%,97% 80%,100% 50%,100% 0%,0% 0%);
+}
+.tear-dark{background:var(--ink)!important}
+.tear-white{background:var(--white)!important}
+
+/* ─── RESPONSIVE ──────────────────────────── */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  nav ul{gap:1rem}
+  #hero{grid-template-columns:1fr;min-height:auto}
+  .hero-left{padding:5rem 1.5rem 3rem}
+  .hero-right{min-height:60vw}
+  section{padding:4rem 1.5rem}
+  #streaming{padding:0 1.5rem;flex-direction:column}
+  .stream-label{border-right:none;border-bottom:1px solid rgba(255,255,255,.1);padding:1rem 0}
+  #about{grid-template-columns:1fr}
+  .about-photos{height:280px;margin-top:0}
+  .merch-top{grid-template-columns:1fr}
+  .prod-grid{grid-template-columns:1fr}
+  .prod-photos{height:280px}
+  .contact-grid{grid-template-columns:1fr}
+  footer{padding:2rem 1.5rem;flex-direction:column;align-items:flex-start}
+  .gallery-header{padding:0 1.5rem}
+  .gallery-strip{padding:0 1.5rem}
+  #photos{padding:4rem 0}
+}
+</style>
+</head>
+<body>
+
+<!-- ──── NAV ──────────────────────────────── -->
+<nav>
+  <a href="#hero" class="nav-logo">Meloire<sup>™</sup></a>
+  <ul>
+    <li><a href="#music">Musique</a></li>
+    <li><a href="#photos">Photos</a></li>
+    <li><a href="#merch">Boutique</a></li>
+    <li><a href="#producer">Prod / DJ</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ──── HERO ─────────────────────────────── -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-stamp">Dossier artistique — 2024</div>
+    <h1 class="hero-title">
+      Meloire
+      <span class="hero-title-script">pop alt. / rock / folk</span>
+    </h1>
+    <div class="hero-meta">
+      <div>Origine &nbsp;&nbsp;: <span>Montréal, QC</span></div>
+      <div>Statut &nbsp;&nbsp;&nbsp;: <span>Artiste solo actif</span></div>
+      <div>Album &nbsp;&nbsp;&nbsp;: <span>Bisou Triste (2024)</span></div>
+    </div>
+    <div class="hero-cta">
+      <a href="#music" class="btn btn-red">Écouter</a>
+      <a href="#merch" class="btn btn-ghost">Boutique</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <!-- Remplace par ta grande photo de scène ou promo -->
+    <img src="images/cover-bisou-triste.jpg" alt="Meloire — Bisou Triste"/>
+    <div class="hero-annotation">bisou triste ↗</div>
+    <div class="hero-bracket">
+      MTL — QC<br>
+      2024
+    </div>
+  </div>
+</section>
+
+<!-- ──── STREAMING ────────────────────────── -->
+<div id="streaming">
+  <div class="stream-label">Écouter sur —</div>
+  <div class="stream-links">
+    <a href="https://open.spotify.com/" target="_blank" class="stream-btn">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      Spotify
+    </a>
+    <a href="https://music.apple.com/" target="_blank" class="stream-btn">
+      <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Apple Music
+    </a>
+    <a href="https://music.youtube.com/" target="_blank" class="stream-btn">
+      <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      YouTube Music
+    </a>
+    <a href="https://www.deezer.com/" target="_blank" class="stream-btn">
+      <svg viewBox="0 0 24 24"><path d="M18.944 16.376H24v2.092h-5.056zm0-4.384H24v2.092h-5.056zm0-4.384H24v2.092h-5.056zM12.944 16.376H18v2.092h-5.056zm0-4.384H18v2.092h-5.056zm0 8.76h5.056v2.092h-5.056zM6.944 16.376H12v2.092H6.944zm0 4.376H12v2.092H6.944zM0 16.376h5.056v2.092H0z"/></svg>
+      Deezer
+    </a>
+    <a href="https://tidal.com/" target="_blank" class="stream-btn">
+      <svg viewBox="0 0 24 24"><path d="M12.012 3.992L8.008 7.996 4.004 3.992 0 7.996l4.004 4.004 4.004-4.004 4.004 4.004 4.004-4.004zM8.008 12l-4.004 4.004 4.004 4.004 4.004-4.004z"/></svg>
+      Tidal
+    </a>
+    <a href="https://www.bandcamp.com/" target="_blank" class="stream-btn">
+      <svg viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/></svg>
+      Bandcamp
+    </a>
+  </div>
+</div>
+
+<!-- ──── ABOUT ─────────────────────────────── -->
+<section id="about">
+  <div class="about-text fi">
+    <p class="section-label">À propos</p>
+    <h2 class="section-title">Une voix entre<br><em>ombre & lumière</em></h2>
+    <p>
+      Meloire est un artiste solo basé à Montréal. Sa musique — quelque part entre la pop alternative, le rock et le folk — raconte des histoires vraies. Fragiles. Directes. Sans filtre.
+    </p>
+    <p>
+      <em>Remplace ce paragraphe par ta vraie bio. Raconte qui tu es, d'où tu viens, ce qui t'a amené à la musique. Deux ou trois paragraphes suffisent — reste honnête, c'est ce qui résonne.</em>
+    </p>
+    <p>
+      Son premier album <strong>Bisou Triste</strong> est disponible sur toutes les plateformes de streaming.
+    </p>
+    <a href="#music" class="btn btn-ghost" style="margin-top:1.2rem">Discographie →</a>
+  </div>
+
+  <div class="fi" style="display:flex;flex-direction:column;gap:2rem">
+    <!-- dossier psychologue -->
+    <div class="dossier">
+      <div class="dossier-header">
+        <div class="dossier-title">Fiche artiste</div>
+        <div class="dossier-no">No. MTL-2024-001</div>
+      </div>
+      <div class="dossier-field">
+        <span class="dossier-key">Nom d'artiste</span>
+        <span class="dossier-val">Meloire</span>
+      </div>
+      <div class="dossier-field">
+        <span class="dossier-key">Genre</span>
+        <span class="dossier-val">Pop alt. / Rock / Folk</span>
+      </div>
+      <div class="dossier-field">
+        <span class="dossier-key">Origine</span>
+        <span class="dossier-val">Montréal, Québec</span>
+      </div>
+      <div class="dossier-field">
+        <span class="dossier-key">Album</span>
+        <span class="dossier-val">Bisou Triste — 2024</span>
+      </div>
+      <div class="dossier-field">
+        <span class="dossier-key">Statut</span>
+        <span class="dossier-val">Actif — en tournée</span>
+      </div>
+      <div class="dossier-note">
+        « Remplace ce champ par une citation ou une note personnelle. »<br>— Meloire
+      </div>
+    </div>
+
+    <!-- photo collage -->
+    <div class="about-photos">
+      <!-- Remplace par tes vraies photos -->
+      <div class="pc">
+        <img src="images/about-1.jpg" alt="Meloire" onerror="this.parentElement.style.background='#c9b99a'"/>
+      </div>
+      <div class="pc">
+        <img src="images/about-2.jpg" alt="Meloire" onerror="this.parentElement.style.background='#b8a98a'"/>
+      </div>
+      <span class="annot">— studio, 2024 ♡</span>
+    </div>
+  </div>
+</section>
+
+<!-- ──── MUSIC ─────────────────────────────── -->
+<div class="tear-down tear-white"></div>
+<section id="music">
+  <div class="music-header fi">
+    <div>
+      <p class="section-label">Discographie</p>
+      <h2 class="section-title" style="margin-bottom:0">La <em>musique</em></h2>
+    </div>
+  </div>
+  <div class="album-grid">
+    <!-- Album 1 — Bisou Triste -->
+    <div class="album-card fi">
+      <div class="album-cover">
+        <img src="images/cover-bisou-triste.jpg" alt="Bisou Triste"/>
+      </div>
+      <div class="album-name">Bisou Triste</div>
+      <div class="album-year">2024 — Album</div>
+      <div class="album-links">
+        <a href="https://open.spotify.com/" target="_blank">Spotify</a>
+        <a href="https://music.apple.com/" target="_blank">Apple Music</a>
+        <a href="https://music.youtube.com/" target="_blank">YouTube</a>
+        <a href="https://www.deezer.com/" target="_blank">Deezer</a>
+      </div>
+    </div>
+    <!-- Single 2 — placeholder -->
+    <div class="album-card fi">
+      <div class="album-cover">
+        <img src="images/cover-single-2.jpg" alt="Single" onerror="this.style.display='none';this.nextSibling.style.display='flex'"/>
+        <div class="album-cover-ph" style="display:none">Ajouter cover ici</div>
+      </div>
+      <div class="album-name">Titre du single</div>
+      <div class="album-year">2023 — Single</div>
+      <div class="album-links">
+        <a href="#">Spotify</a>
+        <a href="#">Apple Music</a>
+      </div>
+    </div>
+    <!-- Single 3 -->
+    <div class="album-card fi">
+      <div class="album-cover">
+        <div class="album-cover-ph">Ajouter cover ici</div>
+      </div>
+      <div class="album-name">Titre du single</div>
+      <div class="album-year">2022 — Single</div>
+      <div class="album-links">
+        <a href="#">Spotify</a>
+        <a href="#">Apple Music</a>
+      </div>
+    </div>
+    <!-- Single 4 -->
+    <div class="album-card fi">
+      <div class="album-cover">
+        <div class="album-cover-ph">Ajouter cover ici</div>
+      </div>
+      <div class="album-name">Titre du single</div>
+      <div class="album-year">2022 — Single</div>
+      <div class="album-links">
+        <a href="#">Spotify</a>
+        <a href="#">Apple Music</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──── GALLERY ───────────────────────────── -->
+<section id="photos" style="padding:6rem 0">
+  <div class="gallery-header fi">
+    <p class="section-label">Galerie</p>
+    <h2 class="section-title" style="color:var(--paper)">En <em>images</em></h2>
+  </div>
+  <div class="gallery-strip">
+    <div class="gitem" style="--r:-2deg"><img src="images/gallery-1.jpg" alt="Meloire en concert" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'gitem-ph\'>📷 photo ici</div>'"/></div>
+    <div class="gitem" style="--r:1.5deg"><img src="images/gallery-2.jpg" alt="Meloire studio" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'gitem-ph\'>📷 photo ici</div>'"/></div>
+    <div class="gitem" style="--r:-1deg"><img src="images/gallery-3.jpg" alt="Meloire portrait" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'gitem-ph\'>📷 photo ici</div>'"/></div>
+    <div class="gitem" style="--r:2.5deg"><img src="images/gallery-4.jpg" alt="Meloire backstage" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'gitem-ph\'>📷 photo ici</div>'"/></div>
+    <div class="gitem" style="--r:-1.5deg"><img src="images/gallery-5.jpg" alt="Meloire live" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'gitem-ph\'>📷 photo ici</div>'"/></div>
+    <div class="gitem" style="--r:1deg"><img src="images/gallery-6.jpg" alt="Meloire session" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'gitem-ph\'>📷 photo ici</div>'"/></div>
+  </div>
+</section>
+
+<!-- ──── MERCH ─────────────────────────────── -->
+<div class="tear-up tear-dark"></div>
+<section id="merch">
+  <div class="merch-top">
+    <div class="fi">
+      <p class="section-label">Boutique</p>
+      <h2 class="section-title">Merch &amp;<br><em>CDs</em></h2>
+    </div>
+    <div class="fi">
+      <p>Soutiens la musique directement. Des objets concrets, faits pour durer — à l'image des chansons.</p>
+      <p style="margin-top:.8rem">Livraison Canada &amp; international. Commandes traitées sous 3–5 jours ouvrables.</p>
+    </div>
+  </div>
+  <div class="merch-grid">
+    <div class="merch-card fi">
+      <div class="merch-img">
+        <img src="images/merch-cd.jpg" alt="CD Bisou Triste" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'merch-img-ph\'><span>💿</span><span>CD — Bisou Triste</span></div>'"/>
+      </div>
+      <div class="merch-body">
+        <div class="merch-name">Bisou Triste — CD</div>
+        <div class="merch-price">18 $</div>
+        <a href="#" class="merch-buy">Commander</a>
+      </div>
+    </div>
+    <div class="merch-card fi">
+      <div class="merch-img">
+        <img src="images/merch-tshirt.jpg" alt="T-shirt" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'merch-img-ph\'><span>👕</span><span>T-shirt</span></div>'"/>
+      </div>
+      <div class="merch-body">
+        <div class="merch-name">T-shirt Meloire</div>
+        <div class="merch-price">35 $</div>
+        <a href="#" class="merch-buy">Commander</a>
+      </div>
+    </div>
+    <div class="merch-card fi">
+      <div class="merch-img">
+        <div class="merch-img-ph"><span>📦</span><span>Ajouter produit</span></div>
+      </div>
+      <div class="merch-body">
+        <div class="merch-name">Produit à venir</div>
+        <div class="merch-price">— $</div>
+        <a href="#" class="merch-buy">Commander</a>
+      </div>
+    </div>
+    <div class="merch-card fi">
+      <div class="merch-img">
+        <div class="merch-img-ph"><span>📦</span><span>Ajouter produit</span></div>
+      </div>
+      <div class="merch-body">
+        <div class="merch-name">Produit à venir</div>
+        <div class="merch-price">— $</div>
+        <a href="#" class="merch-buy">Commander</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──── PRODUCER ──────────────────────────── -->
+<div class="tear-down tear-dark"></div>
+<section id="producer">
+  <div class="prod-grid">
+    <div class="prod-text fi">
+      <p class="section-label">Services professionnels</p>
+      <h2 class="section-title">Réalisateur /<br><em>Producteur</em> / DJ</h2>
+      <p>En marge de son projet solo, Meloire œuvre dans l'ombre — en studio comme sur scène — comme réalisateur, producteur musical et DJ.</p>
+      <p><em>Remplace ce texte par ta description de services et ton approche. Parle des artistes avec qui tu as travaillé, de ta façon de faire.</em></p>
+      <ul class="services">
+        <li>Réalisation &amp; direction artistique d'albums</li>
+        <li>Production musicale — pop, rock, électronique, folk</li>
+        <li>Mix &amp; mastering</li>
+        <li>DJ — événements privés, festivals, clubs</li>
+        <li>Coécriture &amp; arrangements</li>
+      </ul>
+      <a href="#contact" class="btn btn-red">Faire une demande →</a>
+    </div>
+    <div class="prod-photos fi">
+      <!-- Remplace par tes photos studio / DJ set -->
+      <div class="pc"><img src="images/studio-1.jpg" alt="Studio" onerror="this.parentElement.style.background='#2a2018'"/></div>
+      <div class="pc"><img src="images/dj-1.jpg" alt="DJ" onerror="this.parentElement.style.background='#1e1810'"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- ──── CONTACT ───────────────────────────── -->
+<div class="tear-up" style="background:var(--paper)!important"></div>
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-info fi">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Parlons de<br>ton <em>projet</em></h2>
+      <p>Tu cherches un producteur, un réalisateur ou un DJ pour ton prochain projet ? Écris-moi — je réponds à toutes les demandes sérieuses.</p>
+      <div class="contact-detail">
+        <span>//</span>
+        <a href="mailto:meloire@email.com">meloire@email.com</a>
+      </div>
+      <div class="contact-detail">
+        <span>//</span>
+        <span>Montréal, Québec</span>
+      </div>
+      <div class="contact-socials">
+        <a href="https://instagram.com/" target="_blank" class="soc-btn">Instagram</a>
+        <a href="https://tiktok.com/" target="_blank" class="soc-btn">TikTok</a>
+        <a href="https://facebook.com/" target="_blank" class="soc-btn">Facebook</a>
+        <a href="https://soundcloud.com/" target="_blank" class="soc-btn">SoundCloud</a>
+      </div>
+    </div>
+    <div class="fi">
+      <div class="contact-form-wrap">
+        <form id="contact-form" onsubmit="submitForm(event)">
+          <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" id="name" name="name" placeholder="Ton nom" required/>
+          </div>
+          <div class="form-group">
+            <label for="email">Courriel</label>
+            <input type="email" id="email" name="email" placeholder="ton@courriel.com" required/>
+          </div>
+          <div class="form-group">
+            <label for="service">Type de demande</label>
+            <select id="service" name="service">
+              <option value="">Choisir...</option>
+              <option>Production musicale</option>
+              <option>Réalisation d'album</option>
+              <option>Booking DJ</option>
+              <option>Collaboration artistique</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Décris ton projet, tes besoins, ton budget estimé..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Envoyer →</button>
+          <p id="form-confirm">✓ Message envoyé — je reviens vers toi bientôt.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──── FOOTER ────────────────────────────── -->
+<footer>
+  <div class="footer-logo">Meloire</div>
+  <div class="footer-links">
+    <a href="https://open.spotify.com/" target="_blank">Spotify</a>
+    <a href="https://music.apple.com/" target="_blank">Apple Music</a>
+    <a href="https://instagram.com/" target="_blank">Instagram</a>
+    <a href="https://tiktok.com/" target="_blank">TikTok</a>
+    <a href="https://www.bandcamp.com/" target="_blank">Bandcamp</a>
+  </div>
+  <p class="footer-copy">© 2024 Meloire. Tous droits réservés.</p>
+</footer>
+
+<script>
+// Fade-in on scroll
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('on'), i * 80);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+// Nav highlight
+const secs = document.querySelectorAll('section[id]');
+const navAs = document.querySelectorAll('nav ul a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  navAs.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--red)' : '';
+  });
+});
+
+// Form
+function submitForm(e) {
+  e.preventDefault();
+  document.getElementById('form-confirm').style.display = 'block';
+  e.target.reset();
+  // → Connecte ici Formspree ou Netlify Forms pour les vraies soumissions
+  // Formspree : action="https://formspree.io/f/TON_ID" method="POST" sur le <form>
+}
+</script>
+</body>
+</html>
