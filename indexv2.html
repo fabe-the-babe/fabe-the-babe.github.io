@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Meloire — Écouter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Caveat:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink:    #1a1410;
+  --red:    #b01c22;
+  --paper:  #e8dece;
+  --paper2: #d9ccb8;
+  --aged:   #8a7a68;
+  --white:  #f4ede0;
+  --line:   rgba(26,20,16,0.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body {
+  font-family:'DM Mono',monospace;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:3rem 1.5rem;
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* grain */
+body::after {
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+  opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* ruled lines */
+body::before {
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:repeating-linear-gradient(
+    to bottom,transparent 0px,transparent 31px,var(--line) 32px
+  );
+}
+
+.card {
+  position:relative;z-index:1;
+  width:100%;max-width:480px;
+  background:var(--white);
+  border:1px solid var(--line);
+  padding:3rem 2.8rem 2.8rem;
+  background-image:repeating-linear-gradient(
+    to bottom,transparent 0px,transparent 31px,var(--line) 32px
+  );
+}
+
+/* stamp top */
+.stamp {
+  font-family:'Special Elite',cursive;
+  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--red);border:1.5px solid var(--red);
+  display:inline-block;padding:.18rem .65rem;
+  transform:rotate(-1.8deg);
+  margin-bottom:2rem;
+  opacity:.85;
+}
+
+/* cover */
+.cover-wrap {
+  width:100%;aspect-ratio:1;
+  overflow:hidden;
+  box-shadow:4px 6px 22px rgba(0,0,0,.18);
+  margin-bottom:1.8rem;
+  position:relative;
+}
+.cover-wrap img {
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:sepia(15%) contrast(1.04);
+  display:block;
+}
+
+/* cover annotation */
+.cover-wrap::after {
+  content:'bisou triste ♡';
+  position:absolute;bottom:.8rem;right:.9rem;
+  font-family:'Caveat',cursive;font-size:1rem;
+  color:rgba(240,220,200,.75);
+  transform:rotate(-1.5deg);
+  pointer-events:none;
+}
+
+/* title block */
+.artist-name {
+  font-family:'IM Fell English',serif;
+  font-size:2.6rem;line-height:.95;font-weight:400;
+  letter-spacing:.01em;
+  margin-bottom:.2rem;
+}
+.album-title {
+  font-family:'Caveat',cursive;font-weight:700;
+  font-size:1.2rem;color:var(--red);
+  transform:rotate(-.6deg);display:inline-block;
+  margin-bottom:1.6rem;
+}
+
+/* divider */
+.divider {
+  border:none;border-top:1px solid var(--line);
+  margin:1.4rem 0;
+}
+
+/* platform links */
+.platforms {
+  display:flex;flex-direction:column;gap:0;
+}
+.platform-link {
+  display:flex;align-items:center;gap:1rem;
+  padding:.85rem 0;
+  border-bottom:1px solid var(--line);
+  text-decoration:none;
+  color:var(--ink);
+  transition:background .18s,padding-left .18s,color .18s;
+  position:relative;
+}
+.platform-link:last-child{border-bottom:none}
+.platform-link:hover{padding-left:.6rem;color:var(--red)}
+.platform-link:hover .pl-arrow{opacity:1;transform:translateX(0)}
+
+.pl-icon {
+  width:36px;height:36px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--paper2);
+}
+.pl-icon svg{width:18px;height:18px;fill:currentColor}
+
+.pl-name {
+  font-family:'Special Elite',cursive;
+  font-size:.95rem;letter-spacing:.04em;
+  flex:1;
+}
+.pl-sub {
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--aged);margin-top:.1rem;
+}
+.pl-text{display:flex;flex-direction:column}
+
+.pl-arrow {
+  font-family:'DM Mono',monospace;font-size:.7rem;
+  color:var(--red);opacity:0;
+  transform:translateX(-6px);
+  transition:opacity .18s,transform .18s;
+}
+
+/* footer note */
+.card-footer {
+  margin-top:2rem;
+  font-family:'Caveat',cursive;
+  font-size:.95rem;color:var(--aged);
+  text-align:center;
+  transform:rotate(-.3deg);
+}
+.card-footer a{color:var(--red);text-decoration:none}
+.card-footer a:hover{text-decoration:underline}
+
+/* dossier number top-right */
+.dossier-no {
+  position:absolute;top:1rem;right:1.2rem;
+  font-family:'DM Mono',monospace;font-size:.55rem;
+  letter-spacing:.1em;color:var(--aged);opacity:.6;
+}
+
+/* fade in */
+.card{animation:fadeUp .7s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="dossier-no">MTL-2026-001</div>
+
+  <div class="stamp">Disponible sur toutes les plateformes</div>
+
+  <div class="cover-wrap">
+    <img src="images/cover-bisou-triste.jpg" alt="Bisou Triste — Meloire"
+         onerror="this.src='COVER_BT_FINAL-2.jpg'"/>
+  </div>
+
+  <div class="artist-name">Meloire</div>
+  <div class="album-title">Bisou Triste — 2026</div>
+
+  <hr class="divider"/>
+
+  <nav class="platforms" aria-label="Plateformes de streaming">
+
+    <!-- Spotify -->
+    <a class="platform-link"
+       href="https://open.spotify.com/intl-fr/artist/4BTPhFbG3pPr2bUlh1mHAb?si=mTIUXWhEQMm3cBqew1COTA"
+       target="_blank" rel="noopener">
+      <div class="pl-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+        </svg>
+      </div>
+      <div class="pl-text">
+        <span class="pl-name">Spotify</span>
+        <span class="pl-sub">Écouter maintenant</span>
+      </div>
+      <span class="pl-arrow">→</span>
+    </a>
+
+    <!-- Apple Music -->
+    <a class="platform-link"
+       href="https://music.apple.com/ca/artist/meloire/1509107740?l=fr-CA"
+       target="_blank" rel="noopener">
+      <div class="pl-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+      </div>
+      <div class="pl-text">
+        <span class="pl-name">Apple Music</span>
+        <span class="pl-sub">Écouter maintenant</span>
+      </div>
+      <span class="pl-arrow">→</span>
+    </a>
+
+    <!-- YouTube Music -->
+    <a class="platform-link"
+       href="https://www.youtube.com/@meloire7345"
+       target="_blank" rel="noopener">
+      <div class="pl-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+        </svg>
+      </div>
+      <div class="pl-text">
+        <span class="pl-name">YouTube</span>
+        <span class="pl-sub">Chaîne officielle</span>
+      </div>
+      <span class="pl-arrow">→</span>
+    </a>
+
+    <!-- Deezer -->
+    <a class="platform-link"
+       href="https://link.deezer.com/s/33wGoySVZ7qKwRa5vTj2i"
+       target="_blank" rel="noopener">
+      <div class="pl-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.944 16.376H24v2.092h-5.056zm0-4.384H24v2.092h-5.056zm0-4.384H24v2.092h-5.056zM12.944 16.376H18v2.092h-5.056zm0-4.384H18v2.092h-5.056zm0 8.76h5.056v2.092h-5.056zM6.944 16.376H12v2.092H6.944zm0 4.376H12v2.092H6.944zM0 16.376h5.056v2.092H0z"/>
+        </svg>
+      </div>
+      <div class="pl-text">
+        <span class="pl-name">Deezer</span>
+        <span class="pl-sub">Écouter maintenant</span>
+      </div>
+      <span class="pl-arrow">→</span>
+    </a>
+
+    <!-- Bandcamp -->
+    <a class="platform-link"
+       href="https://meloire.bandcamp.com"
+       target="_blank" rel="noopener">
+      <div class="pl-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"/>
+        </svg>
+      </div>
+      <div class="pl-text">
+        <span class="pl-name">Bandcamp</span>
+        <span class="pl-sub">Acheter l'album</span>
+      </div>
+      <span class="pl-arrow">→</span>
+    </a>
+
+  </nav>
+
+  <p class="card-footer">
+    pop alt. · rock · folk · Montréal, QC<br>
+    <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.tiktok.com/" target="_blank">TikTok</a>
+  </p>
+</div>
+
+</body>
+</html>
