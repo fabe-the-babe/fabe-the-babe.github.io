@@ -1,12 +1,31 @@
 <!DOCTYPE html>
-<html lang="fr"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Meloire — Écouter</title>
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Caveat:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Meloire — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Caveat:wght@400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2924485254562787');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2924485254562787&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <style>
 :root {
   --ink:    #1a1410;
@@ -25,11 +44,6 @@ body {
   background:var(--paper);
   color:var(--ink);
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:3rem 1.5rem;
   position:relative;
   overflow-x:hidden;
 }
@@ -42,7 +56,7 @@ body::after {
   background-size:180px;
 }
 
-/* ruled lines */
+/* ruled lines background */
 body::before {
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:repeating-linear-gradient(
@@ -50,178 +64,503 @@ body::before {
   );
 }
 
-.card {
+/* ── NAV ── */
+nav {
+  position:sticky;top:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 2.5rem;
+  background:rgba(232,222,206,.93);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.nav-logo {
+  font-family:'IM Fell English',serif;
+  font-size:1.5rem;color:var(--ink);text-decoration:none;
+}
+.nav-logo sup {
+  font-family:'Caveat',cursive;
+  font-size:.65rem;color:var(--red);vertical-align:super;margin-left:2px;
+}
+nav ul {
+  list-style:none;display:flex;gap:1.8rem;align-items:center;
+}
+nav ul a {
+  font-family:'DM Mono',monospace;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--aged);text-decoration:none;transition:color .2s;
+}
+nav ul a:hover,
+nav ul a.active { color:var(--red); }
+
+/* ── PAGE WRAPPER ── */
+.page {
   position:relative;z-index:1;
-  width:100%;max-width:480px;
-  background:var(--white);
-  border:1px solid var(--line);
-  padding:3rem 2.8rem 2.8rem;
-  background-image:repeating-linear-gradient(
-    to bottom,transparent 0px,transparent 31px,var(--line) 32px
-  );
+  max-width:900px;
+  margin:0 auto;
+  padding:4rem 2rem 6rem;
 }
 
-/* stamp top */
+/* ── HEADER ── */
+.page-header {
+  margin-bottom:3.5rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid var(--line);
+}
 .stamp {
   font-family:'Special Elite',cursive;
   font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
   color:var(--red);border:1.5px solid var(--red);
   display:inline-block;padding:.18rem .65rem;
-  transform:rotate(-1.8deg);
-  margin-bottom:2rem;
-  opacity:.85;
+  transform:rotate(-1.5deg);margin-bottom:1.2rem;opacity:.85;
+}
+.page-title {
+  font-family:'IM Fell English',serif;
+  font-size:clamp(2.2rem,5vw,3.5rem);
+  font-weight:400;line-height:1;
+  margin-bottom:.4rem;
+}
+.page-title em { font-style:italic;color:var(--red); }
+.page-sub {
+  font-family:'Caveat',cursive;font-size:1.1rem;
+  color:var(--aged);transform:rotate(-.5deg);display:inline-block;
 }
 
-/* cover */
-.cover-wrap {
-  width:100%;aspect-ratio:1;
-  overflow:hidden;
-  box-shadow:4px 6px 22px rgba(0,0,0,.18);
-  margin-bottom:1.8rem;
-  position:relative;
+/* ── SECTION TITLES ── */
+.section-label {
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--red);margin-bottom:.6rem;
 }
-.cover-wrap img {
+.section-title {
+  font-family:'IM Fell English',serif;
+  font-size:1.6rem;font-weight:400;
+  margin-bottom:1.8rem;
+  padding-bottom:.8rem;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+}
+.section-title em { font-style:italic;color:var(--red); }
+.section-count {
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.1em;color:var(--aged);
+  white-space:nowrap;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  border:none;border-top:1px solid var(--line);
+  margin:3.5rem 0;
+}
+
+/* ── VIDEO GRID ── */
+.video-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:2rem;
+  margin-bottom:.5rem;
+}
+
+.video-card {
+  background:var(--white);
+  border:1px solid var(--line);
+  overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+  background-image:repeating-linear-gradient(
+    to bottom,transparent 0px,transparent 31px,var(--line) 32px
+  );
+}
+.video-card:hover {
+  transform:translateY(-4px) rotate(.3deg);
+  box-shadow:4px 8px 28px rgba(0,0,0,.12);
+}
+
+/* YouTube embed wrapper — 16:9 */
+.video-embed {
+  width:100%;aspect-ratio:16/9;
+  background:var(--ink);
+  position:relative;overflow:hidden;
+}
+.video-embed iframe {
+  width:100%;height:100%;border:none;display:block;
+}
+
+/* placeholder quand pas de vidéo */
+.video-placeholder {
   width:100%;height:100%;
-  object-fit:cover;
-  filter:sepia(15%) contrast(1.04);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:.8rem;background:var(--paper2);
+  cursor:pointer;
+}
+.video-placeholder svg {
+  width:40px;height:40px;fill:var(--aged);opacity:.6;
+}
+.video-placeholder span {
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--aged);
+}
+
+.video-info {
+  padding:1rem 1.2rem 1.2rem;
+}
+.video-title {
+  font-family:'IM Fell English',serif;
+  font-size:1rem;font-weight:400;margin-bottom:.2rem;
+}
+.video-meta {
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.08em;
+  color:var(--aged);
+}
+.video-tag {
+  display:inline-block;margin-top:.5rem;
+  font-family:'Special Elite',cursive;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);border:1px solid var(--red);
+  padding:.1rem .45rem;opacity:.8;
+}
+
+/* ── AUDIO LIST ── */
+.audio-list {
+  display:flex;flex-direction:column;gap:1.2rem;
+}
+
+.audio-card {
+  background:var(--white);
+  border:1px solid var(--line);
+  padding:1.2rem 1.4rem;
+  background-image:repeating-linear-gradient(
+    to bottom,transparent 0px,transparent 31px,var(--line) 32px
+  );
+  transition:transform .25s,box-shadow .25s;
+}
+.audio-card:hover {
+  transform:translateX(4px);
+  box-shadow:3px 5px 20px rgba(0,0,0,.09);
+}
+
+.audio-header {
+  display:flex;align-items:flex-start;
+  justify-content:space-between;gap:1rem;
+  margin-bottom:.9rem;
+}
+.audio-index {
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;color:var(--red);
+  letter-spacing:.08em;flex-shrink:0;
+  margin-top:.15rem;
+}
+.audio-title {
+  font-family:'IM Fell English',serif;
+  font-size:1.1rem;font-weight:400;flex:1;
+}
+.audio-meta {
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;letter-spacing:.08em;
+  color:var(--aged);margin-top:.15rem;
+}
+.audio-tag {
+  font-family:'Special Elite',cursive;
+  font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);border:1px solid var(--red);
+  padding:.1rem .4rem;opacity:.8;flex-shrink:0;
+  margin-top:.1rem;
+}
+
+/* native audio player stylé */
+audio {
+  width:100%;height:36px;
+  accent-color:var(--red);
   display:block;
 }
 
-/* title block */
-.artist-name {
-  font-family:'IM Fell English',serif;
-  font-size:2.6rem;line-height:.95;font-weight:400;
-  letter-spacing:.01em;
-  margin-bottom:.2rem;
-}
-.album-title {
-  font-family:'Caveat',cursive;font-weight:700;
-  font-size:1.2rem;color:var(--red);
-  transform:rotate(-.6deg);display:inline-block;
-  margin-bottom:1.6rem;
-}
-
-/* divider */
-.divider {
-  border:none;border-top:1px solid var(--line);
-  margin:1.4rem 0;
-}
-
-/* platform links */
-.platforms {
-  display:flex;flex-direction:column;gap:0;
-}
-.platform-link {
-  display:flex;align-items:center;gap:1rem;
-  padding:.85rem 0;
-  border-bottom:1px solid var(--line);
-  text-decoration:none;
-  color:var(--ink);
-  transition:background .18s,padding-left .18s,color .18s;
-  position:relative;
-}
-.platform-link:last-child{border-bottom:none}
-.platform-link:hover{padding-left:.6rem;color:var(--red)}
-.platform-link:hover .pl-arrow{opacity:1;transform:translateX(0)}
-
-.pl-icon {
-  width:36px;height:36px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
+/* placeholder audio — quand pas de fichier */
+.audio-placeholder {
+  width:100%;height:36px;
   background:var(--paper2);
-}
-.pl-icon svg{width:18px;height:18px;fill:currentColor}
-
-.pl-name {
-  font-family:'Special Elite',cursive;
-  font-size:.95rem;letter-spacing:.04em;
-  flex:1;
-}
-.pl-sub {
+  border:1px dashed var(--aged);
+  display:flex;align-items:center;justify-content:center;
+  gap:.6rem;
   font-family:'DM Mono',monospace;
-  font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--aged);margin-top:.1rem;
-}
-.pl-text{display:flex;flex-direction:column}
-
-.pl-arrow {
-  font-family:'DM Mono',monospace;font-size:.7rem;
-  color:var(--red);opacity:0;
-  transform:translateX(-6px);
-  transition:opacity .18s,transform .18s;
+  font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--aged);
 }
 
-/* footer note */
-.card-footer {
-  margin-top:2rem;
-  font-family:'Caveat',cursive;
-  font-size:.95rem;color:var(--aged);
-  text-align:center;
-  transform:rotate(-.3deg);
+/* ── FOOTER ── */
+footer {
+  position:relative;z-index:1;
+  background:var(--ink);color:var(--aged);
+  padding:2rem 2.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:1.2rem;
+  border-top:2px solid var(--red);
 }
-.card-footer a{color:var(--red);text-decoration:none}
-.card-footer a:hover{text-decoration:underline}
-
-/* dossier number top-right */
-.dossier-no {
-  position:absolute;top:1rem;right:1.2rem;
-  font-family:'DM Mono',monospace;font-size:.55rem;
-  letter-spacing:.1em;color:var(--aged);opacity:.6;
+.footer-logo {
+  font-family:'IM Fell English',serif;
+  font-size:1.3rem;color:var(--white);text-decoration:none;
 }
-
-.video-container {
-  width: 100%;             /* Fills mobile screens completely */
-  max-width: 800px;        /* Limits desktop size (adjust as needed) */
-  margin: 0 auto;          /* Centers the container horizontally */
+.footer-links {
+  display:flex;gap:1.4rem;flex-wrap:wrap;
 }
-
-.video-container iframe {
-  width: 100%;             /* Scales to match the parent's width */
-  height: auto;            /* Lets the height be calculated by aspect-ratio */
-  aspect-ratio: 16 / 9;    /* Maintains standard widescreen dimensions */
-  display: block;          /* Prevents unwanted inline white space */
+.footer-links a {
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--aged);text-decoration:none;transition:color .2s;
+}
+.footer-links a:hover{color:var(--red)}
+.footer-copy {
+  font-family:'DM Mono',monospace;font-size:.58rem;opacity:.4;
 }
 
-/* fade in */
-.card{animation:fadeUp .7s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* ── ANCHOR NAV ── */
+.anchor-nav {
+  display:flex;gap:1rem;flex-wrap:wrap;
+  margin-bottom:3rem;
+}
+.anchor-btn {
+  display:flex;align-items:center;gap:.7rem;
+  padding:.8rem 1.4rem;
+  text-decoration:none;
+  border:1.5px solid var(--ink);
+  color:var(--ink);
+  font-family:'DM Mono',monospace;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  transition:background .2s,color .2s,border-color .2s,transform .2s;
+  background:var(--white);
+}
+.anchor-btn:hover {
+  background:var(--red);
+  color:var(--white);
+  border-color:var(--red);
+  transform:translateY(-2px);
+}
+.anchor-btn svg {
+  width:15px;height:15px;fill:currentColor;flex-shrink:0;
+}
+.anchor-btn span { white-space:nowrap; }
+
+/* ── FADE IN ── */
+.fi{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.fi.on{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  nav{padding:1rem 1.2rem}
+  nav ul{gap:1rem}
+  .page{padding:2.5rem 1.2rem 4rem}
+  .video-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;align-items:flex-start;padding:1.8rem 1.2rem}
+}
 </style>
 </head>
 <body>
 
-<div style="max-width:90%;" class="card">
-  <div class="dossier-no">MTL-2026-001</div>
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="nav-logo">Meloire<sup>™</sup></a>
+  <ul>
+    <li><a href="index.html">Écouter</a></li>
+    <li><a href="portfolio.html" class="active">Portfolio</a></li>
+  </ul>
+</nav>
 
+<!-- ── MAIN ── -->
+<main class="page">
 
-  <div class="artist-name">Meloire</div>
-  <br> <!-- Saut de ligne -->
-  <br>
-  <!-- PREMIER PROJET-->
-  <div class="album-title">Titre projet 1</div>
-  <br>
-  <div class="video-container">
-    <iframe 
-      src="https://youtu.be/sCXqGBrbiTM" 
-      title="YouTube video player" 
-      frameborder="0" 
-      allow=" clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-      allowfullscreen>
-    </iframe>
+  <!-- En-tête -->
+  <header class="page-header fi">
+    <div class="stamp">Dossier créatif — Réalisateur / Producteur / DJ</div>
+    <h1 class="page-title">Port<em>folio</em></h1>
+    <span class="page-sub">productions · réalisations · mix</span>
+  </header>
+
+  <!-- Boutons d'accès rapide -->
+  <div class="anchor-nav fi">
+    <a href="#videos" class="anchor-btn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      <span>Création de contenu</span>
+    </a>
+    <a href="#audio" class="anchor-btn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      <span>Production sonore</span>
+    </a>
   </div>
-  <br>
-  <p>Petite description pas mal du tout stv</p>
-  <hr class="divider"> <!-- Saut de ligne plus prononcée -->
-  <!-- FIN PREMIER PROJET-->
 
-  </nav>
+  <!-- ════ VIDÉOS ════ -->
+  <section id="videos" aria-labelledby="videos-title">
+    <p class="section-label">Vidéos</p>
+    <h2 class="section-title" id="videos-title">
+      Réalisations <em>visuelles</em>
+      <span class="section-count">03 extraits</span>
+    </h2>
 
-  <p class="card-footer">
-    pop alt. · rock · folk · Montréal, QC<br>
-    <a href="https://www.instagram.com/" target="_blank">Instagram</a>
-    &nbsp;·&nbsp;
-    <a href="https://www.tiktok.com/" target="_blank">TikTok</a>
-  </p>
-</div>
+    <div class="video-grid">
 
+      <!-- Vidéo 1 -->
+      <!-- Pour ajouter ta vidéo : remplace l'ID YouTube dans src
+           ex: https://www.youtube.com/embed/TON_ID_ICI -->
+      <div class="video-card fi">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/sCXqGBrbiTM"
+            title="Vidéo 1"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Meloire et le psy</div>
+          <div class="video-meta">Capsule vidéo pour la promotion de l'album "Bisou Triste" de Meloire</div>
+          <span class="video-tag">écriture</span>
+          <span class="video-tag">production sonore</span>
+          <span class="video-tag">Montage</span>
+        </div>
+      </div>
 
+      <!-- Vidéo 2 -->
+      <div class="video-card fi">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/shorts/nasXRZr7hw8"
+            title="Vidéo 2"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Titre de la production</div>
+          <div class="video-meta">Artiste · Année</div>
+          <span class="video-tag">Production</span>
+        </div>
+      </div>
 
-</body></html>
+      <!-- Vidéo 3 -->
+      <div class="video-card fi">
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/gJZKuoGTfuE"
+            title="Vidéo 3"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Titre de la production</div>
+          <div class="video-meta">Artiste · Année</div>
+          <span class="video-tag">DJ Set</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ════ AUDIO ════ -->
+  <section id="audio" aria-labelledby="audio-title">
+    <p class="section-label">Audio</p>
+    <h2 class="section-title" id="audio-title">
+      Extraits <em>sonores</em>
+      <span class="section-count">03 extraits</span>
+    </h2>
+
+    <div class="audio-list">
+
+      <!-- Audio 1 -->
+      <!-- Pour ajouter ton fichier : mets le MP3 dans un dossier /audio/
+           et remplace le src ci-dessous par ex: audio/nom-du-fichier.mp3 -->
+      <div class="audio-card fi">
+        <div class="audio-header">
+          <span class="audio-index">01 //</span>
+          <div style="flex:1">
+            <div class="audio-title">Ambiance sonore atmosphérique</div>
+            <div class="audio-meta">Meloire · 2024· 2:42 </div>
+             <div class="audio-meta">Court extrait d'une création de 15 minutes pour le hall d'entrée de  Moment Factory qui souhaitait acceuillir les visiteur dans la douceurs pour le printemps 2024</div>
+          </div>
+          <span class="audio-tag">Production mix</span>
+        </div>
+        <audio controls preload="none">
+          <source src="audio/le-printemps-court.mp3" type="audio/mpeg"/>
+          Ton navigateur ne supporte pas l'audio HTML5.
+        </audio>
+      </div>
+
+      <!-- Audio 2 -->
+      <div class="audio-card fi">
+        <div class="audio-header">
+          <span class="audio-index">02 //</span>
+          <div style="flex:1">
+            <div class="audio-title">Sound Design pour logo</div>
+            <div class="audio-meta">Meloire · 2025· 0:20 </div>
+               <div class="audio-meta">exemple type d'une ambiance sonore que je peux faire pour accompagner un logo ou un montage visuel</div>
+          </div>
+          <span class="audio-tag">production mix</span>
+        </div>
+        <audio controls preload="none">
+          <source src="audio/idéation-logo.mp3" type="audio/mpeg"/>
+          Ton navigateur ne supporte pas l'audio HTML5.
+        </audio>
+      </div>
+
+      <!-- Audio 3 -->
+      <div class="audio-card fi">
+        <div class="audio-header">
+          <span class="audio-index">03 //</span>
+          <div style="flex:1">
+            <div class="audio-title">ambiance d'horreur</div>
+            <div class="audio-meta">Meloire · 2024 · 1:43</div>
+            <div class="audio-meta">ambiance sonore d'horreur pour une maison hantée</div>
+          </div>
+          <span class="audio-tag">production mix</span>
+        </div>
+        <audio controls preload="none">
+          <source src="audio/culte-nocturne.mp3" type="audio/mpeg"/>
+          Ton navigateur ne supporte pas l'audio HTML5.
+        </audio>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <a href="index.html" class="footer-logo">Meloire</a>
+  <div class="footer-links">
+    <a href="https://open.spotify.com/intl-fr/artist/4BTPhFbG3pPr2bUlh1mHAb" target="_blank">Spotify</a>
+    <a href="https://music.apple.com/ca/artist/meloire/1509107740?l=fr-CA" target="_blank">Apple Music</a>
+    <a href="https://www.youtube.com/@meloire7345" target="_blank">YouTube</a>
+    <a href="https://meloire.bandcamp.com" target="_blank">Bandcamp</a>
+  </div>
+  <p class="footer-copy">© 2026 Meloire. Tous droits réservés.</p>
+</footer>
+
+<script>
+// Fade-in on scroll
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('on'), i * 100);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+// Un seul audio à la fois — met en pause les autres quand on en joue un
+document.querySelectorAll('audio').forEach(player => {
+  player.addEventListener('play', () => {
+    document.querySelectorAll('audio').forEach(other => {
+      if (other !== player) other.pause();
+    });
+  });
+});
+</script>
+
+</body>
+</html>
